@@ -3,17 +3,22 @@ WORKDIR /app
 
 # livepush: changing package*.json will trigger a container rebuild
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 
 #dev-cmd-live=npm run livepush
 
 # livepush: changing these files will NOT trigger a container rebuild
 # npm run livepush will pick up and process the changes 
+COPY tsconfig.json .
 COPY src src
 COPY typings typings
-COPY tsconfig.json .
+COPY test test
+
+# Run tests before building the project
+RUN npm test
 
 # Build project for run stage
+RUN npm ci --production
 RUN npm run build
 
 # Run stage is ignored by livepush
@@ -22,7 +27,7 @@ FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine-node:14-run
 WORKDIR /app
 
 COPY package*.json ./
-COPY --from=builder /usr/src/build /usr/src/build
-RUN npm install --production
+COPY --from=builder /app/build /app/build
+COPY --from=builder /app/node_modules /app/node_modules
 
 CMD [ "npm", "start" ]
