@@ -1,5 +1,5 @@
 FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine-node:14-build as builder
-WORKDIR /usr/src
+WORKDIR /app
 
 # livepush: changing package*.json will trigger a container rebuild
 COPY package*.json ./
@@ -9,7 +9,8 @@ RUN npm install
 
 # livepush: changing these files will NOT trigger a container rebuild
 # npm run livepush will pick up and process the changes 
-COPY src .
+COPY src src
+COPY typings typings
 COPY tsconfig.json .
 
 # Build project for run stage
@@ -18,7 +19,7 @@ RUN npm run build
 # Run stage is ignored by livepush
 # https://github.com/balena-io-modules/livepush#multistage-images
 FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine-node:14-run
-WORKDIR /usr/src
+WORKDIR /app
 
 COPY package*.json ./
 COPY --from=builder /usr/src/build /usr/src/build
