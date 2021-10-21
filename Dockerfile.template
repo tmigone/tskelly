@@ -17,9 +17,9 @@ COPY test test
 # Run tests before building the project
 RUN npm test
 
-# Build project for run stage
-RUN npm ci --production
+# Build project for run stage and reinstall production dependencies
 RUN npm run build
+RUN npm ci --production
 
 # Run stage is ignored by livepush
 # https://github.com/balena-io-modules/livepush#multistage-images
