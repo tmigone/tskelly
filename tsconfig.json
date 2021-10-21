@@ -99,6 +99,7 @@
   },
   "include": [
     "src/**/*.ts",
-    "lib/**/*.ts"
+    "lib/**/*.ts",
+		"typings/**/*.d.ts"
   ]
 }
