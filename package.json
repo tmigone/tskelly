@@ -1,5 +1,6 @@
 {
   "name": "tskelly",
+  "private": false,
   "version": "1.0.0",
   "description": "Boilerplate for TypeScript projects",
   "main": "build/index.js",
