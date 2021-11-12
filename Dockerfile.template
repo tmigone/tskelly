@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 
-#dev-cmd-live=npm run livepush
+#dev-cmd-live=npm run watch
 
 # livepush: changing these files will NOT trigger a container rebuild
 # npm run livepush will pick up and process the changes 
