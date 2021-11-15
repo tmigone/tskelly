@@ -2,7 +2,9 @@ FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine-node:14-build as builder
 WORKDIR /app
 
 # livepush: changing package*.json will trigger a container rebuild
+# Override prepare script so we don't install husky. See: https://typicode.github.io/husky/#/?id=with-npm
 COPY package*.json ./
+RUN npm set-script prepare ""
 RUN npm ci
 
 # livepush: run cmd
@@ -20,7 +22,6 @@ RUN npm test
 
 # Build project for run stage and reinstall production dependencies
 RUN npm run build
-RUN npm set-script prepare ""   # Don't install husky
 RUN npm ci --production
 
 # Run stage is ignored by livepush
