@@ -5,6 +5,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 
+# livepush: run cmd
 #dev-cmd-live=npm run watch
 
 # livepush: changing these files will NOT trigger a container rebuild
@@ -19,6 +20,7 @@ RUN npm test
 
 # Build project for run stage and reinstall production dependencies
 RUN npm run build
+RUN npm set-script prepare ""   # Don't install husky
 RUN npm ci --production
 
 # Run stage is ignored by livepush
