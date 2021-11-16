@@ -17,7 +17,7 @@
     "lint:fix": "ts-standard --fix",
     "pre-commit": "lint-staged",
     "start": "node build/index.js",
-    "watch": "nodemon --watch src --ext js,ts,json --exec node -r ts-node/register/transpile-only src/index.ts",
+    "watch": "nodemon --watch src --watch typings --ext js,ts,json --exec node -r ts-node/register/transpile-only src/index.ts",
     "test": "ava"
   },
   "repository": {
