@@ -4,14 +4,16 @@ WORKDIR /app
 # livepush: changing package*.json will trigger a container rebuild
 # Override prepare script so we don't install husky. See: https://typicode.github.io/husky/#/?id=with-npm
 COPY package*.json ./
-RUN npm set-script prepare ""
+# npm v6 doesn't support set-script so we do it manually
+# RUN npm set-script prepare ""
+RUN sed -i 's/\"prepare\":.*/\"prepare\": \"echo 1\",/g' /app/package.json
 RUN npm ci
 
 # livepush: run cmd
 #dev-cmd-live=npm run watch
 
 # livepush: changing these files will NOT trigger a container rebuild
-# npm run livepush will pick up and process the changes 
+# livepush will pick up and process the changes 
 COPY tsconfig.json .
 COPY src src
 COPY typings typings
