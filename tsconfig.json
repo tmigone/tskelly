@@ -101,6 +101,6 @@
     "src/**/*.ts",
     "lib/**/*.ts",
     "typings/**/*.d.ts",
-    "test/**/*.ts
+    "test/**/*.ts"
   ]
 }
